@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+
+        function dateNow() {
+            document.getElementById("res").innerHTML +=
+                            `<p>Hi the time now before the beginning the timer is (${(new Date()).toLocaleTimeString()})</p>`;
+        }
+        function* yield_() {
+            var x = 2;
+            yield x;
+            x = x ** 2;
+            yield x;
+            x = x ** 2;
+            yield x;
+        }
+        function timer() {
+
+
+            timeToRepeat = [];
+            for (let i = 0; i < 3; timeToRepeat[i] = i++);
+            var yieldd = yield_();
+            for (let value of timeToRepeat) {
+                timeToRepeat[value] = yieldd.next().value;
+            }
+
+            timeToRepeat.reduce(callPromise, new Promise((x, y) => { x() }));
+
+        }
+        function callPromise(prevPromise, currentVal, timerIndex) {
+            return prevPromise.then(() => new Promise((resolve, reject) => {
+                setTimeout(
+                    () => {
+                        document.getElementById("res").innerHTML +=
+                            `<p>Hi timer ${timerIndex + 1} , waited ${currentVal} sec (${(new Date()).toLocaleTimeString()})</p>`;
+                        resolve();
+                    }, currentVal * 1000)
+            }));
+        }
+        timer();
+
+    </script>
+</head>
+
+<body onload="dateNow()">
+
+    <div id="res">
+    </div>
+</body>
+
+</html>
